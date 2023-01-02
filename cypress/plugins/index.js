@@ -13,10 +13,37 @@
 
 // promisified fs module
 const cucumber = require("cypress-cucumber-preprocessor").default;
+const mysql = require("mysql")
+
+function queryTestDb(query, config) {
+  let connection
+  let dbConfig
+  dbConfig = config.env.db.local
+  dbConfig.multipleStatements = true;
+  connection = mysql.createConnection(dbConfig)
+  connection.connect()
+  return new Promise((resolve, reject) => {
+    connection.query(query, (error, results) => {
+      if (error) {
+        console.log(error)
+        reject(error)
+      }
+      else {
+        connection.end()
+        return resolve(results)
+      }
+    })
+  })
+}
 
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
+  on("task", {
+    queryDb: query => {
+      return queryTestDb(query, config)
+    }
+  });
 
   on("before:browser:launch", (browser = {}, launchOptions) => {
     if (browser.family === "chromium" && browser.name !== "electron") {

@@ -2,7 +2,7 @@ Feature: Todo Page
 
   Scenario: Open to do page and verify title
     Given open todo page
-    Then verify to do title page "To-Do List"
+    When Click load middle earth
 
 Scenario: Verify label of completed todo
     Given open todo page

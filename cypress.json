@@ -1,6 +1,6 @@
 {
   "reporter": "mochawesome",
-  "baseUrl": "http://localhost:8080",
+  "baseUrl": "http://localhost:3000",
   "ignoreTestFiles": ["*.md"],
   "watchForFileChanges": true,
   "reporterOptions": {
@@ -14,6 +14,14 @@
   "chromeWebSecurity": false,
 
   "env":{
+    "db": {
+      "local":{
+        "host": "localhost",
+        "user": "testdb",
+        "password": "test01",
+        "database": "employees"
+      }
+    },
     "RETRIES" : 3
   }
 }
